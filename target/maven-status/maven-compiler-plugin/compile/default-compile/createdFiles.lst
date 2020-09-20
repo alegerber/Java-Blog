@@ -1,7 +1,0 @@
-com/myblog/core/http/TemplateResponse.class
-com/myblog/core/http/Response.class
-com/myblog/core/dto/Dto.class
-com/myblog/core/http/JsonResponse.class
-com/myblog/app/App.class
-com/myblog/config/ApplicationConfig.class
-com/myblog/core/http/Request.class
