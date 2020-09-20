@@ -2,6 +2,8 @@ package com.myblog.core.http;
 
 import com.myblog.config.ApplicationConfig;
 import com.myblog.core.dto.Dto;
+import org.apache.commons.text.StringEscapeUtils;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -32,11 +34,12 @@ public class TemplateResponse implements Response {
                 });
             }
 
+            this.content = StringEscapeUtils.escapeHtml4(this.content);
         } catch (IOException e) {
             e.printStackTrace();
-            content = e.getMessage();
+            this.content = e.getMessage();
         }
 
-        return content;
+        return this.content;
     }
 }
