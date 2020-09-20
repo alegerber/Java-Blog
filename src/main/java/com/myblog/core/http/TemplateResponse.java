@@ -23,7 +23,7 @@ public class TemplateResponse implements Response {
     }
 
     public String toString() {
-        Path filepath = ApplicationConfig.getConfigPath("template").resolve(this.templateName);
+        Path filepath = ApplicationConfig.getConfigPath("template").resolve(this.templateName.concat(".html"));
 
         try {
             this.content = Files.readString(filepath);
