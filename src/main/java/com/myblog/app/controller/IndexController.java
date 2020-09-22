@@ -4,7 +4,7 @@ import com.myblog.core.AbstractController;
 import com.myblog.core.http.Response;
 import com.myblog.core.http.TemplateResponse;
 
-public class HomeController extends AbstractController {
+public class IndexController extends AbstractController {
     public Response indexAction() {
 
 

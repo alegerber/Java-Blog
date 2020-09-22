@@ -7,8 +7,9 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import com.myblog.app.controller.*;
 
-public class Router  implements HttpHandler {
+public class Router implements HttpHandler {
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
@@ -24,9 +25,24 @@ public class Router  implements HttpHandler {
     private void handleResponse(HttpExchange exchange, Request request)  throws  IOException {
         OutputStream outputStream = exchange.getResponseBody();
         String[] splittedUri      = exchange.getRequestURI().toString().split("/");
-        String controllerName     = splittedUri[1];
-        String methodName         = splittedUri[2];
-        String content            = invokeController(controllerName, methodName);
+        String controllerName;
+        String methodName;
+
+        if (0 == splittedUri.length) {
+            controllerName = "index";
+            methodName     = "index";
+        } else if (2 == splittedUri.length) {
+            controllerName = splittedUri[1];
+            methodName     = "index";
+        } else {
+            controllerName = splittedUri[1];
+            methodName     = splittedUri[2];
+        }
+
+        controllerName = controllerName.substring(0,1).toUpperCase() + controllerName.substring(1).toLowerCase() + "Controller";
+        methodName     = methodName + "Action";
+
+        String content = invokeController(controllerName, methodName);
 
         exchange.sendResponseHeaders(200, content.length());
         outputStream.write(content.getBytes());
