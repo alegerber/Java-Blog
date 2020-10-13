@@ -7,7 +7,6 @@ import com.myblog.core.http.TemplateResponse;
 public class IndexController extends AbstractController {
     public Response indexAction() {
 
-
         return new TemplateResponse("home");
     }
 }

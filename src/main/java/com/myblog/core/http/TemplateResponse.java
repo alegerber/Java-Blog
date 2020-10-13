@@ -7,9 +7,11 @@ import org.apache.commons.text.StringEscapeUtils;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.HashMap;
+import java.util.Map;
 
 public class TemplateResponse implements Response {
-    Dto[] dtos;
+    Map<String, Dto> dtos = new HashMap<>();
     String templateName;
     String content;
 
@@ -17,22 +19,22 @@ public class TemplateResponse implements Response {
         this.templateName = templateName;
     }
 
-    public TemplateResponse(String templateName, Dto[] dtos) {
+    public TemplateResponse(String templateName, Map<String, Dto> dtos) {
         this.templateName = templateName;
         this.dtos         = dtos;
     }
 
     public String toString() {
-        Path filepath = ApplicationConfig.getConfigPath("template").resolve(this.templateName.concat(".html"));
+        Path filepath = ApplicationConfig.getConfigPath(templateName, ApplicationConfig.HTML_TEMPLATE);
 
         try {
             this.content = Files.readString(filepath);
 
-            for (Dto dto: this.dtos) {
+            this.dtos.forEach((index, dto) -> {
                 dto.getReplacements().forEach((key, value) -> {
                     this.content = this.content.replace(key, value);
                 });
-            }
+            });
 
             this.content = StringEscapeUtils.escapeHtml4(this.content);
         } catch (IOException e) {

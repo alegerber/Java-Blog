@@ -1,38 +1,47 @@
 package com.myblog.config;
 
-import org.yaml.snakeyaml.Yaml;
+import com.myblog.app.exception.ConfigTypeNotFoundException;
 
-import java.io.File;
-import java.io.InputStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.Map;
 
 public class ApplicationConfig {
+
+    public static final String HTML_TEMPLATE = "html_template";
+
     public static Path getApplicationPath() {
-        return Paths.get("").getParent();
+        return Paths.get("");
+    }
+
+    public static Path getMainPath() {
+        return ApplicationConfig.getApplicationPath().resolve("src/main/");
     }
 
     public static String getConfig(String key) {
-        Yaml yaml = new Yaml();
-        InputStream inputStream = ApplicationConfig.class
-                .getClassLoader()
-                .getResourceAsStream(
-                        ApplicationConfig
-                        .getApplicationPath()
-                        .toAbsolutePath()
-                        .toString()
-                        .concat("resources/config/application_config.yaml")
-                );
+        Map<String, String> obj = new HashMap<String,String>();
 
-        Map<String, Object> obj = yaml.load(inputStream);
-        System.out.println(obj);
-        return (String) obj.get(key);
+        obj.put("template", "resources/template");
+        obj.put("home", "home");
+
+        return obj.get(key);
     }
 
-    public static Path getConfigPath(String key) {
+    public static Path getConfigPath(String key, String type) {
+        String value = ApplicationConfig.getConfig(key);
+        String path;
+
+        switch(type) {
+            case HTML_TEMPLATE:
+                path = ApplicationConfig.getConfig("template") + "/" + value + ".html";
+                break;
+            default:
+                throw new ConfigTypeNotFoundException(type);
+        }
+
         return ApplicationConfig
-                .getApplicationPath()
-                .resolve(ApplicationConfig.getConfig(key));
+                .getMainPath()
+                .resolve(path);
     }
 }

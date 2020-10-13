@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import com.myblog.app.controller.*;
 
 public class Router implements HttpHandler {
 
@@ -52,12 +51,13 @@ public class Router implements HttpHandler {
 
     private String invokeController(String controllerName, String methodName) {
         try {
-            Class<?> c              = Class.forName(controllerName);
+            Class<?> c              = Class.forName("com.myblog.app.controller." + controllerName);
             Object objectToInvokeOn = c.getConstructor().newInstance();
             Method method           = c.getDeclaredMethod(methodName);
 
-            return (String) method.invoke(objectToInvokeOn, new Object[0]);
-        } catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
+            return method.invoke(objectToInvokeOn).toString();
+        //} catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
+        } catch (Throwable e) {
             e.printStackTrace();
             return e.getMessage();
         }
