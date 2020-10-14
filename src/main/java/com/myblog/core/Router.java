@@ -21,7 +21,7 @@ public class Router implements HttpHandler {
 //        //return exchange.getRequestURI().toString().split("\\?")[1].split("=")[1];
 //    }
 
-    private void handleResponse(HttpExchange exchange, Request request)  throws  IOException {
+    private void handleResponse(HttpExchange exchange, Request request) throws IOException {
         OutputStream outputStream = exchange.getResponseBody();
         String[] splittedUri      = exchange.getRequestURI().toString().split("/");
         String controllerName;

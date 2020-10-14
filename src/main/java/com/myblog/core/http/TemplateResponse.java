@@ -2,7 +2,7 @@ package com.myblog.core.http;
 
 import com.myblog.config.ApplicationConfig;
 import com.myblog.core.dto.Dto;
-import org.apache.commons.text.StringEscapeUtils;
+//import org.apache.commons.text.StringEscapeUtils;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -36,7 +36,7 @@ public class TemplateResponse implements Response {
                 });
             });
 
-            this.content = StringEscapeUtils.escapeHtml4(this.content);
+            //this.content = StringEscapeUtils.escapeHtml4(this.content);
         } catch (IOException e) {
             e.printStackTrace();
             this.content = e.getMessage();
